@@ -27,6 +27,8 @@ parser.add_argument('link', type=str, help='Video link.')
 
 parser.add_argument('-a', '--audio', action='store_true', help='Downloads only audio.')
 
+parser.add_argument('-v', '--video', action='store_true', help='Download video.')
+
 parser.add_argument('-t', '--thumbnail', action='store_true', help='Get the thumbnail link')
 
 parser.add_argument('-o', '--output', type=str, help='Output path.', default=Path.home()/ 'Downloads')
@@ -53,10 +55,10 @@ def thumbnail():
     print(video.thumbnail_url)
 
 if args.thumbnail == True:
-    thumbnail()
+    thumbnail() 
 if args.audio == True:
     download_audio()
-else:
+if args.video == True:
     video.streams.get_highest_resolution().download(args.output)
     titulo = video.title            
     print(str(titulo) + ' have been downloaded on: ' + str(args.output))
