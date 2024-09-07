@@ -10,3 +10,6 @@
 ### -s, --save      |      save in a .txt.
 
 # paramater -s only works with -at
+
+
+the script will try to get the captions in portuguese and english, but you can change it in the line 70.
