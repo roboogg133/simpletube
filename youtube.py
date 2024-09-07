@@ -2,6 +2,7 @@ import pytubefix
 import argparse                 
 from pathlib import Path
 from youtube_transcript_api import YouTubeTranscriptApi
+import os
 
 print(
 
@@ -34,9 +35,9 @@ parser.add_argument('-t', '--thumbnail', action='store_true', help='Get the thum
 
 parser.add_argument('-o', '--output', type=str, help='Output path.', default=Path.home()/ 'Downloads')
 
-parser.add_argument('-at', '--audiototext', action='store_true', help='Audio from youtube video to text.(Only works if the vide has captions, or automatic captions)')
+parser.add_argument('-at', '--audiototext', action='store_true', help='Audio from youtube video to text.(Only works if the vide has captions, or automatic captions.)')
 
-parser.add_argument('-r', '--resum', action='store_true', help='Make a resum from the entire video.')
+parser.add_argument('-s', '--save', action='store_true', help='save in a .txt.')
 
 
 args = parser.parse_args()
@@ -98,8 +99,12 @@ def transcript():
 
 if args.thumbnail == True:
     thumbnail() 
+
+    
 if args.audio == True:
     download_audio()
+
+
 if args.video == True:
     video.streams.get_highest_resolution().download(args.output)
     titulo = video.title            
@@ -107,5 +112,21 @@ if args.video == True:
 
 if args.audiototext == True:
     otranscript = transcript()
-    print(otranscript)
-    
+    if args.save != True:
+        print(otranscript)
+
+
+if args.save == True:
+    if args.audiototext==True:
+
+        archive_name = str(video.title + " captions.txt")
+
+        full_path = os.path.join(args.output, str(video.title + " captions.txt"))
+
+
+        with open(full_path, 'w') as archive_name:
+            archive_name.write(otranscript)
+
+        print(f'text filed saved as: {full_path}')
+    else:
+        print("This paramenter only works with -at")
