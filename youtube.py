@@ -3,6 +3,7 @@ import argparse
 from pathlib import Path
 from youtube_transcript_api import YouTubeTranscriptApi
 import os
+import requests     
 
 print(
 
@@ -11,7 +12,7 @@ print(
 ███████╗██║██╔████╔██║██████╔╝██║     █████╗     ██║   ██║   ██║██████╔╝█████╗        
 ╚════██║██║██║╚██╔╝██║██╔═══╝ ██║     ██╔══╝     ██║   ██║   ██║██╔══██╗██╔══╝        
 ███████║██║██║ ╚═╝ ██║██║     ███████╗███████╗   ██║   ╚██████╔╝██████╔╝███████╗      
-╚══════╝╚═╝╚═╝     ╚═╝╚═╝     ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═════╝ ╚══════╝      """
+╚══════╝╚═╝╚═╝     ╚═╝╚═╝     ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═════╝ ╚══════╝     """
 )
 print('by: roboogg133')             
 
@@ -55,12 +56,25 @@ def mwav(file):
 
 
 def download_audio():       
-    video.streams.filter(only_audio=True).first().download(args.output)
+    video.streams.filter(only_audio=True).first().download(args.output, mp3 =True)
     titulo = video.title            
     print(str(titulo) + ' have been downloaded on: ' + str(args.output))
 
 def thumbnail():
-    print(video.thumbnail_url)
+    response = requests.get(video.thumbnail_url)
+
+    if response.status_code == 200:
+
+        image_name = str(video.title + ".jpg")
+        complete_path = os.path.join(args.output, image_name)
+
+
+        with open (complete_path, 'wb') as image_name:
+            image_name.write(response.content)
+
+        print(f'Saved as: {complete_path}')
+    else: 
+        print(f"ERROR, HTTP STATUS CODE:{response.status_code} ")
 
 def transcript():
     video_id = args.link.split("v=")[1]  
