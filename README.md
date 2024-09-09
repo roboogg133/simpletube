@@ -3,7 +3,7 @@
 ### -h, --help      |      show a help message.
 ### -a, --audio     |      Downloads only audio.
 ### -v, --video     |      Download video.
-### -t, --thumbnail |      Get the thumbnail link
+### -t, --thumbnail |      Download the thumbnail.
 ### -o OUTPUT, --output OUTPUT
 ###                      Output path.
 ### -at, --audiototext  |  Audio from youtube video to text.(Only works if the vide has captions, or automatic captions)
