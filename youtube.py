@@ -25,7 +25,7 @@ parser.add_argument('-a', '--audio', action='store_true', help='Downloads only a
 
 parser.add_argument('-v', '--video', action='store_true', help='Download video.')
 
-parser.add_argument('-t', '--thumbnail', action='store_true', help='Get the thumbnail link')
+parser.add_argument('-t', '--thumbnail', action='store_true', help='Download the thumbnail.')
 
 parser.add_argument('-o', '--output', type=str, help='Output path.', default=Path.home()/ 'Downloads')
 
