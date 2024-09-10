@@ -1,5 +1,7 @@
 # Simpletube
 
+python 3.12
+
 ### -h, --help      |      show a help message.
 ### -a, --audio     |      Downloads only audio.
 ### -v, --video     |      Download video.
