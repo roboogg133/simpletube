@@ -3,7 +3,7 @@ import argparse
 from pathlib import Path
 from youtube_transcript_api import YouTubeTranscriptApi
 import os
-import requests     
+import requests  
 
 print(
 
@@ -41,7 +41,19 @@ link = args.link
 
 audio = args.audio
 
+
+
+
+
+
 video = pytubefix.YouTube(link)
+
+
+
+
+
+
+
 
 
 def mwav(file):
@@ -55,10 +67,10 @@ def mwav(file):
     return dst
 
 
-def download_audio():       
-    video.streams.filter(only_audio=True).first().download(args.output, mp3 =True)
-    titulo = video.title            
-    print(str(titulo) + ' have been downloaded on: ' + str(args.output))
+def download_audio(): 
+    print(f'Downloading: "{video.title}"...')   
+    video.streams.filter(only_audio=True).first().download(args.output, mp3 =True)           
+    print(f'{video.title} have been downloaded on: {args.output}')
 
 def thumbnail():
     response = requests.get(video.thumbnail_url)
@@ -77,8 +89,8 @@ def thumbnail():
         print(f"ERROR, HTTP STATUS CODE:{response.status_code} ")
 
 def transcript():
-    video_id = args.link.split("v=")[1]  
-
+    video_id = video.video_id         
+    
 
     try:                             
         otranscript = YouTubeTranscriptApi.get_transcript(video_id, languages=["pt", "en"])
@@ -97,8 +109,14 @@ def transcript():
 
 
     return subtitle_text
-   
+def download_video():
+    print(f'Downloading: "{video.title}"...')
+    video.streams.get_highest_resolution().download(args.output)
 
+
+    titulo = video.title      
+
+    print(f'{video.title} have been downloaded on: {args.output}') 
 
 
 
@@ -113,14 +131,13 @@ if args.audio == True:
 
 
 if args.video == True:
-    video.streams.get_highest_resolution().download(args.output)
-    titulo = video.title            
-    print(str(titulo) + ' have been downloaded on: ' + str(args.output))
+    download_video()
+
 
 if args.audiototext == True:
     otranscript = transcript()
     if args.save != True:
-        print(otranscript)
+        print(otranscript)  
 
 
 if args.save == True:
